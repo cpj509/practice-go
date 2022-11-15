@@ -1,0 +1,23 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ticker := time.NewTicker(time.Millisecond * 500)
+
+	go func() {
+		i := 0
+		for t := range ticker.C {
+			i++
+			fmt.Println("tick ", t)
+			fmt.Println(i)
+		}
+
+	}()
+	time.Sleep(time.Millisecond * 2100)
+	ticker.Stop()
+	fmt.Println("finish")
+}

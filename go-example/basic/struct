@@ -1,0 +1,40 @@
+package main
+
+// type rect struct {
+// 	width, height int
+// }
+
+// func (r rect) area2() int {
+// 	r.width++
+// 	return r.width * r.height
+// }
+
+// func (r *rect) area() int {
+// 	r.width++
+// 	return r.height * r.width
+// }
+
+// func (r rect) perim() int {
+// 	return 2*r.height + 2*r.width
+// }
+
+// type person struct {
+// 	name string
+// 	age  int
+// }
+
+func main() {
+	// r := rect{4, 5}
+	// fmt.Println(r.width, r.area2())
+	// fmt.Println(r.width, r.area())
+	// fmt.Println(r.perim())
+
+	// s := person{"A", 15}
+	// fmt.Println(s)
+	// s.age = 17
+	// fmt.Println(s)
+	// ps := &person{name: "B", age: 33}
+	// fmt.Println(ps)
+	// ps.age = 44
+	// fmt.Println(ps)
+}
