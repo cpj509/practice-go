@@ -7,4 +7,4 @@ require (
 	github.com/gosnmp/gosnmp v1.35.0
 )
 
-require github.com/deejross/go-snmplib v0.0.0-20190126151901-0ff3fc321a43 // indirect
+require github.com/deejross/go-snmplib v0.0.0-20190126151901-0ff3fc321a43
