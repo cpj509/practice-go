@@ -28,7 +28,7 @@ func main() {
 	target := ""
 	community := ""
 	version := snmplib.SNMPv2c
-	port := 9999
+	port := 162
 
 	udpsock := myUDPServer("0.0.0.0", port)
 	defer udpsock.Close()

@@ -20,12 +20,13 @@ func (h snmpHandler) OnError(addr net.Addr, err error) {
 }
 
 func (h snmpHandler) OnTrap(addr net.Addr, trap snmplib.Trap) {
+	log.Println(trap)
 	prettyPrint, _ := json.MarshalIndent(trap, "", "\t")
 	log.Println(string(prettyPrint))
 }
 
 func main() {
-	port := 9999
+	port := 162
 	server, err := snmplib.NewTrapServer("0.0.0.0", port)
 	if err != nil {
 		log.Fatalln(err)
