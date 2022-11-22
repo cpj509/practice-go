@@ -36,7 +36,7 @@ func (h snmpHandler) OnTrap(addr net.Addr, trap snmplib.Trap) {
 	//
 	db, _ := sql.Open("mysql", "root:1111@tcp(localhost:3306)/snmp_test")
 	defer db.Close()
-	fmt.Printf("%v, %v, %v, %v\n", info.Address, info.Community, info.Version, info.String())
+	fmt.Printf("%v, %v, %v, %v\n", info.Address, info.Community, info.Version, info)
 	result, err := db.Exec("INSERT INTO test_table01(address, community, version, test) VALUES(?, ?, ?, ?)", info.Address, info.Community, info.Version, info.String())
 	if err != nil {
 		fmt.Println(err)
