@@ -37,7 +37,7 @@ func main() {
 		switch variable.Type {
 		case g.OctetString:
 			b := variable.Value.([]byte)
-			fmt.Printf("type: %v \n", variable.Type.String())
+			fmt.Printf("type: %v \n", variable.Type)
 			fmt.Printf("string: %v\n", string(variable.Value.([]byte)))
 			fmt.Printf("mac?: %vs\n", net.HardwareAddr(b))
 			fmt.Printf("byte: %v\n", variable.Value.([]byte))
