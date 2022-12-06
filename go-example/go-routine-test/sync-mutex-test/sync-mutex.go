@@ -8,26 +8,30 @@ import (
 
 var globalValue int
 
-func action(num int, wg *sync.WaitGroup, mu *sync.Mutex) {
+func action(num int, mu *sync.Mutex) {
 	mu.Lock()
 	globalValue += num
 	mu.Unlock()
-	time.Sleep(time.Millisecond * 10)
-	wg.Done()
+	time.Sleep(time.Microsecond * 1)
 }
 
 func main() {
 
 	var wg sync.WaitGroup
 	var mu sync.Mutex
-	defer wg.Wait()
 	startTime := time.Now()
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 1000; i++ {
 		wg.Add(1)
 		i := i
-		go action(i, &wg, &mu)
+
+		go func() {
+			action(i, &mu)
+			defer wg.Done()
+		}()
 	}
+
+	wg.Wait()
 
 	endTime := time.Since(startTime)
 
