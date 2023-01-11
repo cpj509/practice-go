@@ -145,3 +145,4 @@ fabric.properties
 
 # Custom
 *sample*
+*.log

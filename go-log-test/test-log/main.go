@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/mcuadros/go-syslog.v2"
@@ -24,16 +23,16 @@ func main() {
 	server.ListenTCP(addr)
 	server.Boot()
 	log.Println("start log server. listening port" + port)
+	// log.SetFormatter(&log.JSONFormatter{})
 
 	go func(channel syslog.LogPartsChannel) {
 		for logParts := range channel {
-			var filename strings.Builder
-			filename.WriteString(fmt.Sprintf("./log/%v.log", logParts["hostname"]))
+			var filename string = fmt.Sprintf("./log/%v.log", logParts["hostname"])
 			log.SetOutput(&lumberjack.Logger{
-				Filename:   filename.String(),
-				MaxSize:    1, // megabytes
+				Filename:   filename,
+				MaxSize:    50, // megabytes
 				MaxBackups: 3,
-				MaxAge:     1, //days
+				MaxAge:     3, //days
 				LocalTime:  true,
 			})
 			log.Println(logParts)
