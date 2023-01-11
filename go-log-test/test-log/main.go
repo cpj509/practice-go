@@ -2,35 +2,41 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os"
+	"strings"
 
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/mcuadros/go-syslog.v2"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func main() {
+	ip := "0.0.0.0"
+	port := ":8514"
+	addr := ip + port
+
 	channel := make(syslog.LogPartsChannel)
 	handler := syslog.NewChannelHandler(channel)
 
 	server := syslog.NewServer()
 	server.SetFormat(syslog.Automatic)
 	server.SetHandler(handler)
-	server.ListenUDP("0.0.0.0:8514")
-	//server.ListenTCP("0.0.0.0:8514")
+	server.ListenUDP(addr)
+	server.ListenTCP(addr)
 	server.Boot()
-	log.Println("start log server")
+	log.Println("start log server. listening port" + port)
 
 	go func(channel syslog.LogPartsChannel) {
 		for logParts := range channel {
-			fmt.Println(logParts)
-			fmt.Println(logParts["hostname"])
-			f, err := os.OpenFile("testlogfile", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-			if err != nil {
-				log.Fatalf("error opening file: %v", err)
-			}
-			defer f.Close()
-
-			log.SetOutput(f)
+			var filename strings.Builder
+			filename.WriteString(fmt.Sprintf("./log/%v.log", logParts["hostname"]))
+			log.SetOutput(&lumberjack.Logger{
+				Filename:   filename.String(),
+				MaxSize:    1, // megabytes
+				MaxBackups: 3,
+				MaxAge:     1, //days
+				LocalTime:  true,
+			})
+			log.Println(logParts)
 		}
 	}(channel)
 
