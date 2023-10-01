@@ -1,0 +1,17 @@
+package main
+
+import (
+	"crypto/sha1"
+	"fmt"
+)
+
+func main() {
+	a := "test string"
+	b := sha1.New()
+	b.Write([]byte(a))
+	c := b.Sum(nil)
+
+	fmt.Println(a)
+	// fmt.Println(b)
+	fmt.Printf("%x\n", c)
+}

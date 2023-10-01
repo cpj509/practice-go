@@ -1,0 +1,66 @@
+/*
+1. Walk 함수를 도입하십시오.
+
+2. Walk 함수를 테스트해보십시오.
+
+tree.New(k) 함수는 무작위로 구성된(하지만 항상 정렬된) k, 2k, 3k, ..., 10k 의 값을 가진 이진트리를 생성합니다.
+
+새로운 채널 ch 를 생성하고 walker를 시작하십시오:
+
+go Walk(tree.New(1), ch)
+그리고 channel에서 값을 읽고 10을 출력하십시오. 그 출력은 1, 2, 3, ..., 10의 숫자여야합니다.
+
+3. t1 과 t2 가 같은 값을 가졌는지를 판단하기 위해 Walk 를 사용하는 Same 함수를 도입하십시오.
+
+4. Same 함수를 테스트해보십시오.
+
+Same(tree.New(1), tree.New(1)) 는 true를 반환해야하고 Same(tree.New(1), tree.New(2)) 는 false를 반환해야합니다.
+*/
+
+package main
+
+import (
+	"fmt"
+	"go-example/goTour/tree"
+)
+
+// Walk walks the tree t sending all values
+// from the tree to the channel ch.
+func Walk(t *tree.Tree, ch chan int) {
+	if t != nil {
+		Walk(t.Left, ch)
+		ch <- t.Value
+		Walk(t.Right, ch)
+	}
+}
+
+// Same determines whether the trees
+// t1 and t2 contain the same values.
+func Same(t1, t2 *tree.Tree) bool {
+
+	c1 := make(chan int)
+	c2 := make(chan int)
+	go Walk(t1, c1)
+	go Walk(t2, c2)
+	for i := 0; i < 10; i++ {
+		if <-c1 != <-c2 {
+			return false
+		}
+	}
+	return true
+}
+
+func main() {
+	ch := make(chan int)
+	go Walk(tree.New(1), ch)
+
+	for i := 0; i < 10; i++ {
+		fmt.Print(<-ch)
+	}
+	fmt.Println()
+	a := Same(tree.New(1), tree.New(1))
+	fmt.Println(a)
+
+	b := Same(tree.New(1), tree.New(2))
+	fmt.Println(b)
+}

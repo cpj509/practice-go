@@ -1,0 +1,14 @@
+package main
+
+import "fmt"
+
+func main() {
+	msg1 := make(chan string)
+
+	go func() {
+		msg1 <- "ping"
+	}()
+
+	msg2 := <-msg1
+	fmt.Println(msg2)
+}
