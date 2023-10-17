@@ -1,0 +1,1 @@
+Copyright 2006-2023 HackerRank, Inc. All rights reserved.
