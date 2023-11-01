@@ -149,3 +149,4 @@ fabric.properties
 backup/
 configs/
 go.work
+challenges/hackerrank/test/
